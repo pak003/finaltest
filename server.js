@@ -18,6 +18,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // #3 Serve static content in folder frontend
+app.use(express.static('www'));
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/coc',
+    { useUnifiedTopology: true, useNewUrlParser: true });
+var Product = require('./models/product');
 
 // ===============================
 
