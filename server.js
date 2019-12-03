@@ -1,13 +1,13 @@
 // call the packages we need
 // #1 Add express package to the app
-
+var express = require('express');
 // ===============================
 
 var app = express();   
 var cors = require('cors');       
 
 // #2 Add body-parser package to the app
-
+var bodyParser = require('body-parser');
 // ===============================
 
 
@@ -35,13 +35,54 @@ router.get('/products/:pid', products.getProductById);
 // #4 Complete the routing for POST, PUT, DELETE
 
 // ===============================
+app.post('/api/products', function (req, res) {
+    // Insert data to mongodb
+    var newproduct = req.body;
+    var product = new Product(newproduct);
+    product.save(function (err) {       
+        if (err) res.status(500).json(err);
+        res.json({ status: "Added a product" });
+    });
+});
 
+app.get('/api/products', function (req, res) {
+    Product.find(function(err, products) {
+        if (err) res.status(500).json(err);
+        res.json(products);
+    });
+});
+
+app.get('/api/products/:id', function (req, res) {
+    var id = req.params.id;
+    Product.find({"_id":id}, function(err, products) {
+        if (err) res.status(500).json(err);
+        res.json(products);
+    });
+});
+
+app.put('/api/products/:id', function (req, res) {
+    var id = req.params.id;
+    var updateproduct = req.body;
+    Product.findByIdAndUpdate(id, updateproduct, function(err){
+        if (err) res.status(500).json(err);
+        res.json({status: "Updated a product"});
+    })
+});
+
+app.delete('/api/products/:id', function (req, res) {
+    var id = req.params.id;
+    Product.findByIdAndRemove(id, function(err){
+        if (err) res.status(500).json(err);
+        res.json({status: "Deleted a product"});
+    })
+});
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', cors(), router);
 
 // #10 Start the server
-
-// ===============================
+var port = process.env.PORT || 8080;
+app.listen(port, function () {
+    // ===============================
 console.log('Magic happens on http://localhost:' + port);
