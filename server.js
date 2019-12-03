@@ -35,48 +35,13 @@ router.get('/products/:pid', products.getProductById);
 // #4 Complete the routing for POST, PUT, DELETE
 
 // ===============================
-app.post('/api/products', function (req, res) {
-    // Insert data to mongodb
-    var newproduct = req.body;
-    var product = new Product(newproduct);
-    product.save(function (err) {       
-        if (err) res.status(500).json(err);
-        res.json({ status: "Added a product" });
-    });
-});
-
-app.get('/api/products', function (req, res) {
-    Product.find(function(err, products) {
-        if (err) res.status(500).json(err);
-        res.json(products);
-    });
-});
-
-app.get('/api/products/:id', function (req, res) {
-    var id = req.params.id;
-    Product.find({"_id":id}, function(err, products) {
-        if (err) res.status(500).json(err);
-        res.json(products);
-    });
-});
-
-app.put('/api/products/:id', function (req, res) {
-    var id = req.params.id;
-    var updateproduct = req.body;
-    Product.findByIdAndUpdate(id, updateproduct, function(err){
-        if (err) res.status(500).json(err);
-        res.json({status: "Updated a product"});
-    })
-});
-
-app.delete('/api/products/:id', function (req, res) {
-    var id = req.params.id;
-    Product.findByIdAndRemove(id, function(err){
-        if (err) res.status(500).json(err);
-        res.json({status: "Deleted a product"});
-    })
-});
-
+var router = express.Router();
+var products = require('./api');
+router.get('/products',products.getAllProducts);
+router.get('/products/:pid',products.getProductById);
+router.post('/product',products.addProduct);
+router.put('/products/:pid',products.updateProductById);
+router.delete('/products/:pid',products.deleteProductById);
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', cors(), router);
@@ -85,4 +50,4 @@ app.use('/api', cors(), router);
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
     // ===============================
-console.log('Magic happens on http://localhost:' + port);
+console.log('Magic happens on http://localhost:' + 8080);
