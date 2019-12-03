@@ -10,7 +10,13 @@ $(function () {
     function getData() {
         // #14 Get a selected product and display as a form
         // use $.get
-
+        $.ajax({  
+            type:'PUT',
+            url:"update.php",  
+           data:{stud_no:stud_no},  
+           success: function(data)
+              
+       
         // ===============================
     }
 
@@ -49,7 +55,12 @@ $(function () {
     $("#confirmdelete").click(function () {
         // #15 Get a selected product and go back to product list
         // use $.get and winidow.location.href
-
+        $.ajax({
+            type:'POST',
+            url:'delete.php',
+            data:{del_id:del_id},
+            success: function(data)
+          
         // ===============================
     });
-});
+        });
