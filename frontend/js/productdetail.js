@@ -10,16 +10,7 @@ $(function () {
     function getData() {
         // #14 Get a selected product and display as a form
         // use $.get
-        $.ajax({
-            url: url,
-            type: 'UPDATED',
-            data: editproduct,
-            success: function (result) {
-                //Show updated status
-                $("#modalbody").text("Updated product " + pid);
-                $('#alertModal').modal('toggle');
-                // Refresh data
-                getData();
+       
         // ===============================
     }
 
