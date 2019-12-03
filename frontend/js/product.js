@@ -9,7 +9,9 @@ $(function () {
         $("#plist").empty();
         // #12 Get all products and display as a table
         // use $.get
-
+        $("#name").text(data.graphql.hashtag.name);
+        $("#numberpost").text(data.graphql.hashtag.slug);
+        $("#count").text(" = " + data.graphql.hashtag.edge_hashtag_to_media.count);
         // ===============================
     }
     
@@ -30,7 +32,8 @@ $(function () {
 
         // #13 Add new products by calling api
         // use $.post
-
+$post("demo_ajax_gethint.aso",){products: txt},function(result){
+    $("span").html(result);
         // ===============================
 
     });
